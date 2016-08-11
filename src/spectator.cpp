@@ -23,21 +23,22 @@ Spectator::~Spectator()
 void Spectator::advance()
 {
 	const double PI = acos(-1);
+	double boost = 2;
 	if (keys[static_cast<int>('w')])
 	{
-		speed += Vertex (cos(direction) * 0.5, sin(direction) * 0.5, 0);
+		speed += Vertex (cos(direction) * boost, sin(direction) * boost, 0);
 	}
 	if (keys[static_cast<int>('s')])
 	{
-		speed -= Vertex (cos(direction) * 0.5, sin(direction) * 0.5, 0);
+		speed -= Vertex (cos(direction) * boost, sin(direction) * boost, 0);
 	}
 	if (keys[static_cast<int>('a')])
 	{
-		speed += Vertex (cos(direction + PI / 2) * 1, sin(direction + PI / 2) * 1, 0);
+		speed += Vertex (cos(direction + PI / 2) * boost, sin(direction + PI / 2) * boost, 0);
 	}
 	if (keys[static_cast<int>('d')])
 	{
-		speed -= Vertex (cos(direction + PI / 2) * 1, sin(direction + PI / 2) * 1, 0);
+		speed -= Vertex (cos(direction + PI / 2) * boost, sin(direction + PI / 2) * boost, 0);
 	}
 	if (position.z() < 50)
 	{
@@ -78,7 +79,8 @@ void Spectator::advance()
 		speed.y() *= -0.9;
 	}
 	glLoadIdentity();
-	gluLookAt(-1500, 0, 300, position.x(), position.y(), position.z(), 0, 0, 1);
+	// gluLookAt(-1500, 0, 300, position.x(), position.y(), position.z(), 0, 0, 1);
+	gluLookAt(eye.x(), eye.y(), eye.z(), position.x(), position.y(), position.z(), 0, 0, 1);
 }
 
 void Spectator::render()
