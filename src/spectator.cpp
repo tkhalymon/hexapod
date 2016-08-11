@@ -59,7 +59,23 @@ void Spectator::advance()
 	if (position.z() < 50)
 	{
 		position.z() = 50;
-		speed.z() = 0;
+		speed.z() *= -0.9;
+	}
+	if (position.x() < -1000 && speed.x() < 0)
+	{
+		speed.x() *= -0.9;
+	}
+	if (position.y() < -1000 && speed.y() < 0)
+	{
+		speed.y() *= -0.9;
+	}
+	if (position.x() > 1000 && speed.x() > 0)
+	{
+		speed.x() *= -0.9;
+	}
+	if (position.y() > 1000 && speed.y() > 0)
+	{
+		speed.y() *= -0.9;
 	}
 	glLoadIdentity();
 	gluLookAt(-1500, 0, 300, position.x(), position.y(), position.z(), 0, 0, 1);
