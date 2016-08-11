@@ -6,7 +6,7 @@ class Vertex
 public:
 	Vertex();
 	Vertex(const Vertex& v);
-	Vertex(double x, double y, double z);
+	Vertex(double x, double y, double z = 0);
 	~Vertex();
 
 	// getters
@@ -22,6 +22,10 @@ public:
 	void operator -= (const Vertex& v);
 	void operator *= (const double& k);
 	void operator /= (const double& k);
+	const Vertex operator + (const Vertex& v) const;
+	const Vertex operator - (const Vertex& v) const;
+	const Vertex operator * (const double& k) const;
+	const Vertex operator / (const double& k) const;
 
 
 private:

@@ -71,3 +71,23 @@ void Vertex::operator /= (const double& k)
 	for (int i = 0; i < 3; ++i)
 		this->coord[i] /= k;
 }
+
+const Vertex Vertex::operator + (const Vertex& v) const
+{
+	return Vertex(coord[0] + v.coord[1], coord[1] + v.coord[1], coord[2] + v.coord[1]);
+}
+
+const Vertex Vertex::operator - (const Vertex& v) const
+{
+	return Vertex(coord[0] - v.coord[1], coord[1] - v.coord[1], coord[2] - v.coord[1]);
+}
+
+const Vertex Vertex::operator * (const double& k) const
+{
+	return Vertex (coord[0] * k, coord[1] * k, coord[2] * k);
+}
+
+const Vertex Vertex::operator / (const double& k) const
+{
+	return Vertex (coord[0] / k, coord[1] / k, coord[2] / k);
+}
