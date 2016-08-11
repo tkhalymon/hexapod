@@ -27,34 +27,19 @@ Vertex::~Vertex()
 	delete [] coord;
 }
 
-const double Vertex::x() const
+double& Vertex::x() const
 {
 	return coord[0];
 }
 
-const double Vertex::y() const
+double& Vertex::y() const
 {
 	return coord[1];
 }
 
-const double Vertex::z() const
+double& Vertex::z() const
 {
 	return coord[2];
-}
-
-void Vertex::x(const double& x)
-{
-	coord[0] = x;
-}
-
-void Vertex::y(const double& y)
-{
-	coord[1] = y;
-}
-
-void Vertex::z(const double& z)
-{
-	coord[2] = z;
 }
 
 void Vertex::operator = (const Vertex& v)

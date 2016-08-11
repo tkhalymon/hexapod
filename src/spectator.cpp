@@ -1,6 +1,7 @@
 #include <GL/glut.h>
 #include <GL/glu.h>
 #include <math.h>
+#include <iostream>
 
 #include "spectator.hpp"
 
@@ -38,15 +39,28 @@ void Spectator::advance()
 	{
 		speed -= Vertex (cos(direction + PI / 2) * 1, sin(direction + PI / 2) * 1, 0);
 	}
+	if (position.z() < 50)
+	{
+		position.z() = 50;
+	}
 	if (keys[static_cast<int>(' ')])
 	{
-		speed *= 0.9;
+		if (position.z() == 50)
+		{
+			speed.z() += 20;
+		}
 	}
+	speed.z() -= 1;
 	speed /= 1.01;
 
 	Vertex eye = position;
 	eye -= Vertex (cos(direction) * - 200, sin(direction) * -200, position.z() + 100);
 	position += speed;
+	if (position.z() < 50)
+	{
+		position.z() = 50;
+		speed.z() = 0;
+	}
 	glLoadIdentity();
 	gluLookAt(-1500, 0, 300, position.x(), position.y(), position.z(), 0, 0, 1);
 }

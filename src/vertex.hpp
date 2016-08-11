@@ -10,15 +10,10 @@ public:
 	~Vertex();
 
 	// getters
-	const double x() const;
-	const double y() const;
-	const double z() const;
+	double& x() const;
+	double& y() const;
+	double& z() const;
 	
-	// setters
-	void x(const double& x);
-	void y(const double& y);
-	void z(const double& z);
-
 	// length
 	const double l() const;
 
