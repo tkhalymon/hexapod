@@ -2,6 +2,9 @@
 #define __SPECTATOR_HPP__
 
 #include "vertex.hpp"
+#include "vector.hpp"
+
+enum Direction { DirLeft, DirRight, DirUp, DirDown };
 
 class Spectator
 {
@@ -14,17 +17,17 @@ public:
 	void keyPressed(const unsigned char& key);
 	void keyRelease(const unsigned char& key);
 	
-	void startPos(int y);
-	void moveY(int y);
+	void turn(Direction direction, double angle);
+	void move(Direction direction, double distance);
 
 private:
 
 	Vertex position;
 	Vertex speed;
 	Vertex eye;
-	double direction;
-	double directionSpeed;
-	int moveYpos;
+	
+	Vector direction;
+	
 	bool keys[255];
 };
 

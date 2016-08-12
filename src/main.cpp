@@ -116,11 +116,11 @@ void mousePressed(int button, int state, int x, int y)
 {
 	if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON)
 	{
-		spectator.startPos(y);
+		// spectator.startPos(y);
 	}
 }
 
 void mousePressedMove(int x, int y)
 {
-	spectator.moveY(y);
+	// spectator.moveY(y);
 }

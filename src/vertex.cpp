@@ -1,5 +1,6 @@
-#include "vertex.hpp"
 #include <iostream>
+#include <math.h>
+#include "vertex.hpp"
 
 Vertex::Vertex()
 {
@@ -40,6 +41,11 @@ double& Vertex::y() const
 double& Vertex::z() const
 {
 	return coord[2];
+}
+
+const double Vertex::l() const
+{
+	return sqrt(coord[0] * coord[0] + coord[1] * coord[1] + coord[2] * coord[2]);
 }
 
 void Vertex::operator = (const Vertex& v)
