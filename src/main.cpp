@@ -2,6 +2,7 @@
 #include <GL/glu.h>
 #include <iostream>
 #include "spectator.hpp"
+#include "hexapod.hpp"
 
 void display();
 void timer(int);
@@ -11,11 +12,12 @@ void mousePressed(int button, int state, int x, int y);
 void mousePressedMove(int x, int y);
 
 Spectator spectator;
+Hexapod hexapod;
 
 int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA);
+	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH);
 	int w = glutGet(GLUT_SCREEN_WIDTH) * 0.8;
 	int h = glutGet(GLUT_SCREEN_HEIGHT) * 0.8;
 	glutInitWindowSize(w, h);
@@ -24,7 +26,7 @@ int main(int argc, char *argv[])
 	glLoadIdentity();
 	
 	glMatrixMode(GL_PROJECTION);
-	gluPerspective(60, (double)((double)w / (double)h), 1.0, 1000000.0);
+	gluPerspective(60, static_cast<double>(static_cast<double>(w) / static_cast<double>(h)), 10.0, 100000.0);
 	glMatrixMode(GL_MODELVIEW);
 
 	glutDisplayFunc(display);
@@ -34,6 +36,9 @@ int main(int argc, char *argv[])
 	glutMouseFunc(mousePressed);
 	glutMotionFunc(mousePressedMove);
 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDepthFunc(GL_LEQUAL);
+	
 	glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
 	glutMainLoop();
 	return 0;
@@ -85,8 +90,9 @@ void drawGrid()
 
 void display()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	drawGrid();
+	hexapod.render();
 	spectator.render();
 	glutSwapBuffers();
 }
@@ -94,6 +100,7 @@ void display()
 void timer(int)
 {
 	spectator.advance();
+	hexapod.advance();
 	glutPostRedisplay();
 	glutTimerFunc(20, timer, 0);
 }
