@@ -86,7 +86,8 @@ void Spectator::advance()
 void Spectator::render()
 {
 	glPushMatrix();
-	glColor3d(1, 1, 1);
+	glEnable(GL_DEPTH_TEST);
+	glColor3d(0.7, 0.7, 0.7);
 	glTranslated(position.x(), position.y(), position.z());
 
 		glRotated(90, 1, 0, 0);
@@ -97,6 +98,7 @@ void Spectator::render()
 		gluQuadricDrawStyle(quad, GLU_LINE);
 		gluSphere(quad, 50, 20, 20);
 
+	glDisable(GL_DEPTH_TEST);
 	glPopMatrix();
 }
 
