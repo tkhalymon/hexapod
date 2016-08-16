@@ -1,6 +1,7 @@
 #include <GL/glut.h>
 #include <GL/glu.h>
 #include <iostream>
+#include <math.h>
 #include "spectator.hpp"
 
 void display();
@@ -10,7 +11,8 @@ void keyboardUp(unsigned char key, int x, int y);
 void mousePressed(int button, int state, int x, int y);
 void mousePressedMove(int x, int y);
 
-Spectator spectator;
+std::shared_ptr<Spectator> spectator;
+std::shared_ptr<Field> field;
 
 int main(int argc, char *argv[])
 {
@@ -34,66 +36,25 @@ int main(int argc, char *argv[])
 	glutMouseFunc(mousePressed);
 	glutMotionFunc(mousePressedMove);
 
+	field = std::make_shared<Field>(20, 10, 1, true);
+	spectator = std::make_shared<Spectator>(field);
+
 	glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
 	glutMainLoop();
 	return 0;
 }
 
-void drawGrid()
-{
-	glColor3d(0.5, 0.5, 0.5);
-	glBegin(GL_LINES);
-	for (int i = -1000; i <= 1000; i += 50)
-	{
-		glVertex3d(-1000, i, 0);
-		glVertex3d(1000, i, 0);
-
-		glVertex3d(i, -1000, 0);
-		glVertex3d(i, 1000, 0);
-	}
-	for (int i = -1000; i <= 1000; i += 50)
-	{
-		glVertex3d(-1000, i, 0);
-		glVertex3d(-1000, i, 200);
-
-		glVertex3d(1000, i, 0);
-		glVertex3d(1000, i, 200);
-
-		glVertex3d(i, -1000, 0);
-		glVertex3d(i, -1000, 200);
-
-		glVertex3d(i, 1000, 0);
-		glVertex3d(i, 1000, 200);
-	}
-	for (int i = 0; i <= 200; i += 50)
-	{
-		glVertex3d(-1000, 1000, i);
-		glVertex3d(1000, 1000, i);
-
-		glVertex3d(1000, 1000, i);
-		glVertex3d(1000, -1000, i);
-
-		glVertex3d(1000, -1000, i);
-		glVertex3d(-1000, -1000, i);
-
-		glVertex3d(-1000, -1000, i);
-		glVertex3d(-1000, 1000, i);
-
-	}
-	glEnd();
-}
-
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-	drawGrid();
-	spectator.render();
+	field->render();
+	spectator->render();
 	glutSwapBuffers();
 }
 
 void timer(int)
 {
-	spectator.advance();
+	spectator->advance();
 	glutPostRedisplay();
 	glutTimerFunc(20, timer, 0);
 }
@@ -104,23 +65,20 @@ void keyboard(unsigned char key, int x, int y)
 	{
 		exit(0);
 	}
-	spectator.keyPressed(key);
+	spectator->keyPressed(key);
 }
 
 void keyboardUp(unsigned char key, int x, int y)
 {
-	spectator.keyRelease(key);
+	spectator->keyRelease(key);
 }
 
 void mousePressed(int button, int state, int x, int y)
 {
-	if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON)
-	{
-		// spectator.startPos(y);
-	}
+
 }
 
 void mousePressedMove(int x, int y)
 {
-	// spectator.moveY(y);
+	
 }

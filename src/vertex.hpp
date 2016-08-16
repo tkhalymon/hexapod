@@ -1,6 +1,10 @@
 #ifndef __VERTEX_HPP__
 #define __VERTEX_HPP__
 
+class Vertex;
+
+#include "vector.hpp"
+
 class Vertex
 {
 public:

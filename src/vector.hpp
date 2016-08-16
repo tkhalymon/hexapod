@@ -18,7 +18,13 @@ public:
 	double& lon();
 	double& rot();
 
-	const Vertex operator * (const double& len);
+	void lat(const double& lat);
+	void lon(const double& lon);
+	void rot(const double& rot);
+
+	const Vertex operator * (const double& len) const;
+	const Vector operator - () const;
+	void operator += (const Vector& v);
 
 private:
 

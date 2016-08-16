@@ -80,12 +80,12 @@ void Vertex::operator /= (const double& k)
 
 const Vertex Vertex::operator + (const Vertex& v) const
 {
-	return Vertex(coord[0] + v.coord[1], coord[1] + v.coord[1], coord[2] + v.coord[1]);
+	return Vertex(coord[0] + v.coord[0], coord[1] + v.coord[1], coord[2] + v.coord[2]);
 }
 
 const Vertex Vertex::operator - (const Vertex& v) const
 {
-	return Vertex(coord[0] - v.coord[1], coord[1] - v.coord[1], coord[2] - v.coord[1]);
+	return Vertex(coord[0] - v.coord[0], coord[1] - v.coord[1], coord[2] - v.coord[2]);
 }
 
 const Vertex Vertex::operator * (const double& k) const

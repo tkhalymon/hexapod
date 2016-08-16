@@ -10,7 +10,7 @@ Vector::Vector() : latency(0), longitude(0), rotation(0)
 
 Vector::Vector(double lat, double lon, double rot) : latency(lat), longitude(lon), rotation(rot)
 {
-
+	// TODO: avoid huge numbers
 }
 
 Vector::Vector(const Vector& v) : latency(v.latency), longitude(v.longitude), rotation(v.rotation)
@@ -53,7 +53,34 @@ double& Vector::rot()
 	return rotation;
 }
 
-const Vertex Vector::operator * (const double& len)
+void Vector::lat(const double& lat)
 {
-	return Vertex(cos(latency)	* cos (longitude), 0, sin(longitude) * len);
+	latency = lat;
+}
+
+void Vector::lon(const double& lon)
+{
+	longitude = lon;
+}
+
+void Vector::rot(const double& rot)
+{
+	rotation = rot;
+}
+
+const Vertex Vector::operator * (const double& len) const
+{
+	return Vertex(cos(latency) * sin(longitude) * len, sin(latency) * sin (longitude) * len, cos(longitude) * len);
+}
+
+const Vector Vector::operator - () const
+{
+	return Vector(latency + PI, -longitude, -rotation);
+}
+
+void Vector::operator += (const Vector& v)
+{
+	latency += v.latency;
+	longitude += v.longitude;
+	rotation += v.rotation;
 }
