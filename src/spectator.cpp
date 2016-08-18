@@ -10,7 +10,7 @@ Spectator::Spectator(std::shared_ptr<Field> field) : field (field)
 	size = 50;
 	position = Vertex(0, 0, 50);
 	acc = Vertex(0, 0, 0);
-	direction = Vector(0, acos(-1) / 2, 0);
+	direction = Vector(0, -acos(-1) / 3, 0);
 	directionSpeed = Vector(0, 0, 0);
 	directionAcc = Vector(0, 0, 0);
 	for (int i = 0; i < 255; ++i)
@@ -202,3 +202,8 @@ void Spectator::handleControlls()
 	}
 }
 
+void Spectator::rotate(Vertex mouseMove)
+{
+	directionAcc.lat() = mouseMove.x() / 50;
+	directionAcc.rot() = mouseMove.y() / 50;
+}

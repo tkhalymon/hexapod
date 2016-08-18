@@ -21,7 +21,7 @@ public:
 	void keyPressed(const unsigned char& key);
 	void keyRelease(const unsigned char& key);
 	
-	void turn(Direction direction, double angle);
+	void rotate(Vertex mouseMove);
 	void move(Direction direction, double distance);
 
 private:

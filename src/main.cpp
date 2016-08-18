@@ -15,6 +15,7 @@ void mousePressedMove(int x, int y);
 std::shared_ptr<Spectator> spectator;
 std::shared_ptr<Field> field;
 std::shared_ptr<Hexapod> hexapod;
+Vertex mousePos;
 
 int main(int argc, char *argv[])
 {
@@ -23,7 +24,7 @@ int main(int argc, char *argv[])
 	int w = glutGet(GLUT_SCREEN_WIDTH);
 	int h = glutGet(GLUT_SCREEN_HEIGHT);
 	glutInitWindowSize(w, h);
-	glutCreateWindow("Spectator 0.1");
+	glutCreateWindow("Hexapod 0.0");
 	glClearColor(0, 0, 0, 0);
 	glLoadIdentity();
 	
@@ -84,10 +85,11 @@ void keyboardUp(unsigned char key, int x, int y)
 
 void mousePressed(int button, int state, int x, int y)
 {
-
+	mousePos = Vertex (x, y, 0);
 }
 
 void mousePressedMove(int x, int y)
 {
-	
+	spectator->rotate(Vertex (x, y, 0) - mousePos);
+	mousePos = Vertex (x, y, 0);
 }

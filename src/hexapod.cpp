@@ -25,7 +25,9 @@ Hexapod::~Hexapod()
 
 void Hexapod::advance()
 {
-	direction.lat() += 0.01;
+	direction.lon() += 0.05;
+	direction.rot() += 0.2;
+	position += direction * 5;
 }
 
 void Hexapod::render()
@@ -61,10 +63,17 @@ void Hexapod::render()
 	glEnd();
 	glColor3d(0, 0, 0);
 	glLineWidth(2);
+	glScaled(1.01, 1.01, 1.01);
 	glBegin(GL_LINE_LOOP);
 	for (int i = 0; i < 6; ++i)
 	{
 		glVertex3d(paws[i]->pos().x(), paws[i]->pos().y(), paws[i]->pos().z());
+	}
+	glEnd();
+	glBegin(GL_LINE_LOOP);
+	for (int i = 0; i < 6; ++i)
+	{
+		glVertex3d(paws[i]->pos().x(), paws[i]->pos().y(), paws[i]->pos().z() - 10);
 	}
 	glEnd();
 	glBegin(GL_LINES);

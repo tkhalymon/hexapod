@@ -70,7 +70,7 @@ void Vector::rot(const double& rot)
 
 const Vertex Vector::operator * (const double& len) const
 {
-	return Vertex(cos(latency) * sin(longitude) * len, sin(latency) * sin (longitude) * len, cos(longitude) * len);
+	return Vertex(cos(latency) * cos(longitude) * len, sin(latency) * cos (longitude) * len, sin(longitude) * len);
 }
 
 const Vector Vector::operator - () const
