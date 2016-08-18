@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH);
-	int w = glutGet(GLUT_SCREEN_WIDTH) * 0.8;
-	int h = glutGet(GLUT_SCREEN_HEIGHT) * 0.8;
+	int w = glutGet(GLUT_SCREEN_WIDTH);
+	int h = glutGet(GLUT_SCREEN_HEIGHT);
 	glutInitWindowSize(w, h);
 	glutCreateWindow("Spectator 0.1");
 	glClearColor(0, 0, 0, 0);
@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
 	glDepthFunc(GL_LEQUAL);
 	
 	glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
+	glutFullScreen();
 	glutMainLoop();
 	return 0;
 }
