@@ -18,6 +18,8 @@ std::shared_ptr<Spectator> spectator;
 std::shared_ptr<Field> field;
 std::shared_ptr<Hexapod> hexapod;
 Vertex mousePos;
+bool mouseRotating = false;
+bool mouseMoving = false;
 bool paused = false;
 
 int main(int argc, char *argv[])
@@ -103,11 +105,18 @@ void idle()
 void mouseMove(int x, int y)
 {
 	mousePos = Vertex(x, y, 0);
-	// spectator->rotate(Vertex((x - 1000) / 100, (y - 500) / 100, 0));
 }
 
 void mousePressed(int button, int state, int x, int y)
 {
+	if (button == GLUT_LEFT_BUTTON)
+	{
+		mouseRotating = !mouseRotating;
+	}
+	if (button == GLUT_MIDDLE_BUTTON)
+	{
+		mouseMoving = !mouseMoving;
+	}
 	mousePos = Vertex (x, y, 0);
 	if (state == GLUT_DOWN)
 	{
@@ -124,6 +133,13 @@ void mousePressed(int button, int state, int x, int y)
 
 void mousePressedMove(int x, int y)
 {
-	spectator->rotate(Vertex (x, y, 0) - mousePos);
+	if (mouseRotating)
+	{
+		spectator->rotate(Vertex (x, y, 0) - mousePos);
+	}
+	if (mouseMoving)
+	{
+		spectator->move(Vertex (x, y, 0) - mousePos);
+	}
 	mousePos = Vertex (x, y, 0);
 }

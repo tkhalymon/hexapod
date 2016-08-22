@@ -22,7 +22,7 @@ public:
 	void keyRelease(const unsigned char& key);
 	
 	void rotate(Vertex mouseMove);
-	void move(Direction direction, double distance);
+	void move(Vertex mouseMove);
 	void zoom(int direction);
 
 private:

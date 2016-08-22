@@ -227,6 +227,12 @@ void Spectator::rotate(Vertex mouseMove)
 	directionAcc.lon() = mouseMove.y() / 50 * (1 - invertMouseControls * 2);
 }
 
+void Spectator::move(Vertex mouseMove)
+{
+	// accDeriv = 0;
+	// accDeriv += mouseMove * Vector(direction);
+}
+
 void Spectator::zoom(int dir)
 {
 	if (dir > 0)
