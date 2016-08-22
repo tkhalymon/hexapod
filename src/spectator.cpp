@@ -229,8 +229,10 @@ void Spectator::rotate(Vertex mouseMove)
 
 void Spectator::move(Vertex mouseMove)
 {
-	// accDeriv = 0;
-	// accDeriv += mouseMove * Vector(direction);
+	static const double PI = acos(-1);
+	acc *= 0;
+	acc += Vector (direction.lat() + PI / 2, 0, 0) * mouseMove.x() / 1 * boost;
+	acc += Vector (direction.lat(), direction.lon() + PI / 2, 0) * mouseMove.y() / 1 * boost;
 }
 
 void Spectator::zoom(int dir)
