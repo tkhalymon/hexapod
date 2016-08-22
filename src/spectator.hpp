@@ -23,6 +23,7 @@ public:
 	
 	void rotate(Vertex mouseMove);
 	void move(Direction direction, double distance);
+	void zoom(int direction);
 
 private:
 
@@ -42,6 +43,11 @@ private:
 	Vector directionAcc;
 	Vector directionAccDeriv;
 	
+	double distance;
+	double distanceSpeed;
+	double distanceAcc;
+	double distanceAccDeriv;
+
 	std::shared_ptr<Field> field;
 
 	int size;
@@ -49,6 +55,8 @@ private:
 	double boost = 0.2;
 
 	bool keys[255];
+
+	bool invertMouseControls;
 };
 
 #endif

@@ -26,17 +26,18 @@ Hexapod::~Hexapod()
 void Hexapod::advance()
 {
 	direction.lon() += 0.05;
-	direction.rot() += 0.2;
+	direction.rot() += 0.05;
 	position += direction * 5;
 }
 
 void Hexapod::render()
 {
-	glColor3d(1, 1, 1);
 	glPushMatrix();
+	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glTranslated(position.x(), position.y(), position.z());
 	glRotated(-90, 0, 0, 1);
+	glColor4d(1, 1, 1, 0.5);
 	glRotated(direction.lat() / PI * 180, 0, 0, 1);
 	glRotated(direction.lon() / PI * 180, 1, 0, 0);
 	glRotated(direction.rot() / PI * 180, 0, 1, 0);
@@ -52,7 +53,7 @@ void Hexapod::render()
 		glVertex3d(paws[i]->pos().x(), paws[i]->pos().y(), paws[i]->pos().z() - 10);
 	}
 	glEnd();
-	glColor3d(0.8, 0.8, 0.8);
+	glColor4d(0.8, 0.8, 0.8, 0.5);
 	glBegin(GL_TRIANGLE_STRIP);
 	for (int i = 0; i < 7; ++i)
 	{
@@ -83,6 +84,7 @@ void Hexapod::render()
 		glVertex3d(paws[i]->pos().x(), paws[i]->pos().y(), paws[i]->pos().z() - 10);
 	}
 	glEnd();
+	glDisable(GL_BLEND);
 	glDisable(GL_DEPTH_TEST);
 	glPopMatrix();
 }
