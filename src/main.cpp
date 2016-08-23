@@ -102,7 +102,6 @@ void keyboardUp(unsigned char key, int x, int y)
 
 void idle()
 {
-	// spectator->rotate(Vertex((mousePos.x() - 1000) / 100, (mousePos.y() - 500) / 100, 0));
 }
 
 void mouseMove(int x, int y)

@@ -113,7 +113,7 @@ void Spectator::render()
 void Spectator::look()
 {
 	glLoadIdentity();
-	gluLookAt(eye.x(), eye.y(), eye.z(), position.x(), position.y(), position.z(), 0, 0, 1);
+	gluLookAt(eye.x(), eye.y(), eye.z(), position.x(), position.y(), position.z(), 0, sin(direction.rot()), cos(direction.rot()));
 }
 
 void Spectator::keyPressed(const unsigned char& key)

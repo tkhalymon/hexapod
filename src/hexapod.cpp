@@ -25,9 +25,10 @@ Hexapod::~Hexapod()
 
 void Hexapod::advance()
 {
+	// direction.lat() += 0.05;
 	direction.lon() += 0.05;
-	direction.rot() += 0.05;
-	position += direction * 5;
+	// direction.rot() += 0.05;
+	// position += direction * 5;
 
 }
 
@@ -96,5 +97,5 @@ void Hexapod::look()
 {
 	glLoadIdentity();
 	Vertex eye = position - direction * 200;
-	gluLookAt(eye.x(), eye.y(), eye.z(), position.x(), position.y(), position.z(), 0, 0, 1);
+	gluLookAt(eye.x(), eye.y(), eye.z(), position.x(), position.y(), position.z(), 0, -sin(direction.rot()), cos(direction.rot()));
 }
