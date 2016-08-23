@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
 	int h = glutGet(GLUT_SCREEN_HEIGHT);
 	glutInitWindowSize(w, h);
 	glutCreateWindow("Hexapod 0.0");
+	// glClearColor(0, 0, 0, 0);
 	glClearColor(0, 0, 0, 0);
 	glLoadIdentity();
 	
@@ -64,6 +65,8 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	field->render();
 	hexapod->render();
+	// spectator->look();
+	hexapod->look();
 	// spectator->render();
 	glutSwapBuffers();
 }

@@ -9,10 +9,11 @@ Spectator::Spectator(std::shared_ptr<Field> field) : field (field)
 {
 	invertMouseControls = true;
 	size = 50;
-	distance = 400;
+	minDistance = 100;
+	distance = 600;
 	position = Vertex(0, 0, 50);
 	acc = Vertex(0, 0, 0);
-	direction = Vector(0, 0, 0);
+	direction = Vector(0, -0.3, 0);
 	directionSpeed = Vector(0, 0, 0);
 	directionAcc = Vector(0, 0, 0);
 	for (int i = 0; i < 255; ++i)
@@ -32,13 +33,9 @@ void Spectator::advance()
 
 	handleControlls();
 
-	Vertex expected = (Vertex (position.x() - cos(direction.lat()) * cos(direction.lon()) *  distance,
-	                   position.y() - sin(direction.lat()) * cos(direction.lon()) * distance,
-	                   position.z() - sin(direction.lon()) * distance));
-	// eye -= (eye - expected) * 0.1;
-	eye = (Vertex (position.x() - cos(direction.lat()) * cos(direction.lon()) *  distance,
+	eye = (Vertex (position.x() - cos(direction.lat()) * cos(direction.lon()) * distance,
 	       position.y() - sin(direction.lat()) * cos(direction.lon()) * distance,
-	       position.z() - sin(direction.lon()) * distance));;
+	       position.z() - sin(direction.lon()) * distance));
 	
 	acc += accDeriv;
 	speed += acc;
@@ -49,9 +46,9 @@ void Spectator::advance()
 	distanceAcc += distanceAccDeriv;
 	distanceSpeed += distanceAcc;
 	distance += distanceSpeed;
-	if (distance < 50)
+	if (distance < minDistance)
 	{
-		distance = 50;
+		distance = minDistance;
 	}
 	direction.lat() += directionSpeed.lat() / 50;
 	direction.lon() += directionSpeed.lon() / 50;
@@ -92,9 +89,6 @@ void Spectator::advance()
 	directionSpeed.lat() /= 1.1;
 	directionSpeed.lon() /= 1.1;
 	directionSpeed.rot() /= 1.1;
-
-	glLoadIdentity();
-	gluLookAt(eye.x(), eye.y(), eye.z(), position.x(), position.y(), position.z(), 0, 0, 1);
 }
 
 void Spectator::render()
@@ -114,6 +108,12 @@ void Spectator::render()
 
 	glDisable(GL_DEPTH_TEST);
 	glPopMatrix();
+}
+
+void Spectator::look()
+{
+	glLoadIdentity();
+	gluLookAt(eye.x(), eye.y(), eye.z(), position.x(), position.y(), position.z(), 0, 0, 1);
 }
 
 void Spectator::keyPressed(const unsigned char& key)
@@ -195,12 +195,12 @@ void Spectator::handleControlls()
 
 	if (keys[static_cast<int>('w')])
 	{
-		accDeriv = Vector(direction.lat(), direction.lon(), 0) * boost / 2;
+		accDeriv = Vector(direction.lat(), /*direction.lon()*/0, 0) * boost / 2;
 	}
 
 	if (keys[static_cast<int>('s')])
 	{
-		accDeriv = Vector(direction.lat(), direction.lon(), 0) * -boost / 2;
+		accDeriv = Vector(direction.lat(), /*direction.lon()*/0, 0) * -boost / 2;
 	}
 	
 	if (keys[static_cast<int>('a')])
@@ -223,8 +223,12 @@ void Spectator::handleControlls()
 
 void Spectator::rotate(Vertex mouseMove)
 {
-	directionAcc.lat() = mouseMove.x() / 50 * (1 - invertMouseControls * 2);
-	directionAcc.lon() = mouseMove.y() / 50 * (1 - invertMouseControls * 2);
+	if (mouseMove.l() > 5)
+	{
+		mouseMove *= 5 / mouseMove.l();
+	}
+	directionAcc.lat() = pow(mouseMove.x() / 2, 3) / 20. * (1. - invertMouseControls * 2.);
+	directionAcc.lon() = pow(mouseMove.y() / 2, 3) / 20. * (1. - invertMouseControls * 2.);
 }
 
 void Spectator::move(Vertex mouseMove)
@@ -239,10 +243,10 @@ void Spectator::zoom(int dir)
 {
 	if (dir > 0)
 	{
-		distanceAcc = 2;
+		distanceAcc = sqrt(distance) * 0.1;
 	}
 	else
 	{
-		distanceAcc = -2;
+		distanceAcc = -sqrt(distance) * 0.1;
 	}
 }

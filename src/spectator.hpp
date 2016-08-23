@@ -17,6 +17,7 @@ public:
 
 	void advance();
 	void render();
+	void look();
 
 	void keyPressed(const unsigned char& key);
 	void keyRelease(const unsigned char& key);
@@ -43,6 +44,8 @@ private:
 	Vector directionAcc;
 	Vector directionAccDeriv;
 	
+	double minDistance;
+
 	double distance;
 	double distanceSpeed;
 	double distanceAcc;
