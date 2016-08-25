@@ -9,6 +9,8 @@ void display();
 void timer(int);
 void keyboard(unsigned char key, int x, int y);
 void keyboardUp(unsigned char key, int x, int y);
+void keyboardSpecial(int key, int x, int y);
+void keyboardSpecialUp(int key, int x, int y);
 void idle();
 void mouseMove(int x, int y);
 void mousePressed(int button, int state, int x, int y);
@@ -42,6 +44,8 @@ int main(int argc, char *argv[])
 	glutTimerFunc(20, timer, 0);
 	glutKeyboardFunc(keyboard);
 	glutKeyboardUpFunc(keyboardUp);
+	glutSpecialFunc(keyboardSpecial);
+	glutSpecialUpFunc(keyboardSpecialUp);
 	glutIdleFunc(idle);
 	glutPassiveMotionFunc(mouseMove);
 	glutMouseFunc(mousePressed);
@@ -98,6 +102,16 @@ void keyboard(unsigned char key, int x, int y)
 void keyboardUp(unsigned char key, int x, int y)
 {
 	spectator->keyRelease(key);
+}
+
+void keyboardSpecial(int key, int x, int y)
+{
+	
+}
+
+void keyboardSpecialUp(int key, int x, int y)
+{
+
 }
 
 void idle()
