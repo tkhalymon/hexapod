@@ -227,8 +227,8 @@ void Spectator::rotate(Vertex mouseMove)
 	{
 		mouseMove *= 5 / mouseMove.l();
 	}
-	directionAcc.lat() = pow(mouseMove.x() / 2, 3) / 20. * (1. - invertMouseControls * 2.);
-	directionAcc.lon() = pow(mouseMove.y() / 2, 3) / 20. * (1. - invertMouseControls * 2.);
+	directionAcc.lat() = pow(mouseMove.x() / 3., 3) / 20. * (1. - invertMouseControls * 2.);
+	directionAcc.lon() = pow(mouseMove.y() / 3., 3) / 20. * (1. - invertMouseControls * 2.);
 }
 
 void Spectator::move(Vertex mouseMove)

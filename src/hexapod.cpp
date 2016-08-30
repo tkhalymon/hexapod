@@ -25,9 +25,10 @@ Hexapod::~Hexapod()
 
 void Hexapod::advance()
 {
-	// direction.lat() += 0.05;
-	// direction.lon() += 0.05;
-	// direction.rot() = 0.5;
+	direction.lat() += 0.005;
+	// direction.lat() = PI / 2;
+	direction.lon() += 0.01;
+	direction.rot() += 0.005;
 	// position += direction * 5;
 
 }
@@ -40,7 +41,6 @@ void Hexapod::render()
 	glEnable(GL_ALPHA_TEST);
 	glTranslated(position.x(), position.y(), position.z());
 	glRotated(-90, 0, 0, 1);
-	glRotated(90, 1, 0, 0);
 	glColor3d(1, 1, 1);
 	glRotated(direction.lat() / PI * 180, 0, 0, 1);
 	glRotated(direction.lon() / PI * 180, 1, 0, 0);
@@ -101,11 +101,12 @@ void Hexapod::look()
 	double lat = direction.lat();
 	double lon = direction.lon();
 	double rot = direction.rot();
-	Vertex up = Vertex
-	(
-		0,
-		0,
-		cos(lon)
-	);
-	gluLookAt(eye.x(), eye.y(), eye.z(), position.x(), position.y(), position.z(), up.x(), up.y(), up.z());
+	Vertex normal = Vertex(-sin(rot + PI / 2) * sin(lon), -cos(rot - PI / 2), sin(rot + PI / 2) * cos(lon));
+	double len = sqrt(pow(normal.x(), 2) + pow(normal.y(), 2));
+	double angle = normal.y() < 0 ? acos(normal.x() / len) : 2 * PI - acos(normal.x() / len);
+	angle -= lat;
+	normal.x() = cos(angle) * len;
+	normal.y() = -sin(angle) * len;
+	eye += normal * 100;
+	gluLookAt(eye.x(), eye.y(), eye.z(), position.x(), position.y(), position.z(), normal.x(), normal.y(), normal.z());
 }

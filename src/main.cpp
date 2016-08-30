@@ -71,7 +71,6 @@ void display()
 	hexapod->render();
 	// spectator->look();
 	hexapod->look();
-	// spectator->render();
 	glutSwapBuffers();
 }
 
