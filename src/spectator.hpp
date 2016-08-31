@@ -55,7 +55,7 @@ private:
 
 	int size;
 
-	double boost = 0.2;
+	double boost;
 
 	bool keys[255];
 

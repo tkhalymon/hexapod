@@ -8,13 +8,12 @@ const double Hexapod::PI = acos(-1);
 Hexapod::Hexapod()
 {
 	position = Vertex(0, 0, 50);
-	paws[LF] = new Paw(-20, 40, 5);
-	paws[LM] = new Paw(-30, 0, 5);
-	paws[LB] = new Paw(-20, -40, 5);
-	paws[RF] = new Paw(20, 40, 5);
-	paws[RM] = new Paw(30, 0, 5);
-	paws[RB] = new Paw(20, -40, 5);
-	// direction = Vector (PI / 3, 0.5, 0.5);
+	paws[LF] = new Paw(-20, 40, 5, PI / 3);
+	paws[LM] = new Paw(-30, 0, 5, PI / 2);
+	paws[LB] = new Paw(-20, -40, 5, 2 * PI / 3);
+	paws[RF] = new Paw(20, 40, 5, -PI / 3);
+	paws[RM] = new Paw(30, 0, 5, -PI / 2);
+	paws[RB] = new Paw(20, -40, 5, -2 * PI / 3);
 	direction = Vector (0, 0, 0);
 }
 
@@ -25,12 +24,7 @@ Hexapod::~Hexapod()
 
 void Hexapod::advance()
 {
-	direction.lat() += 0.005;
-	// direction.lat() = PI / 2;
-	direction.lon() += 0.01;
-	direction.rot() += 0.005;
-	// position += direction * 5;
-
+	
 }
 
 void Hexapod::render()
@@ -88,6 +82,10 @@ void Hexapod::render()
 		glVertex3d(paws[i]->pos().x(), paws[i]->pos().y(), paws[i]->pos().z() - 10);
 	}
 	glEnd();
+	for (int i = 0; i < 6; ++i)
+	{
+		paws[i]->render();
+	}
 	glDisable(GL_ALPHA_TEST);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);

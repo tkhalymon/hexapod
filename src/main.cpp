@@ -69,8 +69,8 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	field->render();
 	hexapod->render();
-	// spectator->look();
-	hexapod->look();
+	spectator->look();
+	// hexapod->look();
 	glutSwapBuffers();
 }
 

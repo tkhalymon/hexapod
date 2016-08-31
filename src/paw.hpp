@@ -7,8 +7,10 @@
 class Paw
 {
 public:
-	Paw(double x, double y, double z);
+	Paw(double x, double y, double z, double lat);
 	~Paw();
+
+	void render();
 
 	const Vertex& pos() const;
 

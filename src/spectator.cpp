@@ -7,6 +7,7 @@
 
 Spectator::Spectator(std::shared_ptr<Field> field) : field (field)
 {
+	boost = 0.2;
 	invertMouseControls = true;
 	size = 50;
 	minDistance = 100;
