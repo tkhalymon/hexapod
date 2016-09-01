@@ -14,12 +14,12 @@ public:
 	Vector(const Vertex& v);
 	~Vector();
 
-	double& lat();
 	double& lon();
+	double& lat();
 	double& rot();
 
-	void lat(const double& lat);
 	void lon(const double& lon);
+	void lat(const double& lat);
 	void rot(const double& rot);
 
 	const Vertex operator * (const double& len) const;

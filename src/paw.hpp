@@ -15,9 +15,10 @@ public:
 	const Vertex& pos() const;
 
 private:
-
+	double a = 0;
 	Vertex position;
 	Vector direction;
+	double angle;
 };
 
 #endif

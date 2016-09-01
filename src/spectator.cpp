@@ -21,7 +21,7 @@ Spectator::Spectator(std::shared_ptr<Field> field) : field (field)
 	{
 		keys[i] = false;
 	}
-	eye = Vertex (position.x() + cos(direction.lat()) * -distance, position.y() + sin(direction.lat()) * -distance, 0);
+	eye = Vertex (position.x() + cos(direction.lon()) * -distance, position.y() + sin(direction.lon()) * -distance, 0);
 }
 
 Spectator::~Spectator()
@@ -34,9 +34,9 @@ void Spectator::advance()
 
 	handleControlls();
 
-	eye = (Vertex (position.x() - cos(direction.lat()) * cos(direction.lon()) * distance,
-	       position.y() - sin(direction.lat()) * cos(direction.lon()) * distance,
-	       position.z() - sin(direction.lon()) * distance));
+	eye = (Vertex (position.x() - cos(direction.lon()) * cos(direction.lat()) * distance,
+	       position.y() - sin(direction.lon()) * cos(direction.lat()) * distance,
+	       position.z() - sin(direction.lat()) * distance));
 	
 	acc += accDeriv;
 	speed += acc;
@@ -51,21 +51,21 @@ void Spectator::advance()
 	{
 		distance = minDistance;
 	}
-	direction.lat() += directionSpeed.lat() / 50;
 	direction.lon() += directionSpeed.lon() / 50;
+	direction.lat() += directionSpeed.lat() / 50;
 	direction.rot() += directionSpeed.rot() / 50;
 
 	static const double PI = acos(-1); 
 
-	if (direction.lon() > PI / 2.001)
+	if (direction.lat() > PI / 2.001)
 	{
-		direction.lon() = PI / 2.001;
-		directionSpeed.lon() = 0;
+		direction.lat() = PI / 2.001;
+		directionSpeed.lat() = 0;
 	}
-	if (direction.lon() < -PI / 2.001)
+	if (direction.lat() < -PI / 2.001)
 	{
-		direction.lon() = -PI / 2.001;
-		directionSpeed.lon() = 0;
+		direction.lat() = -PI / 2.001;
+		directionSpeed.lat() = 0;
 	}
 
 	if (field->bouncing)
@@ -83,12 +83,12 @@ void Spectator::advance()
 	distanceAcc /= 1.1;
 	distanceSpeed /= 1.1;
 
-	directionAcc.lat() /= 1.1;
 	directionAcc.lon() /= 1.1;
+	directionAcc.lat() /= 1.1;
 	directionAcc.rot() /= 1.1;
 
-	directionSpeed.lat() /= 1.1;
 	directionSpeed.lon() /= 1.1;
+	directionSpeed.lat() /= 1.1;
 	directionSpeed.rot() /= 1.1;
 }
 
@@ -100,9 +100,9 @@ void Spectator::render()
 	glTranslated(position.x(), position.y(), position.z());
 
 		glRotated(90, 1, 0, 0);
-		glRotated(direction.lat() / acos(-1) * 180 - 90, 0, 1, 0);
+		glRotated(direction.lon() / acos(-1) * 180 - 90, 0, 1, 0);
 		// glRotated(direction.rot() / acos(-1) * 180 - 90, 0, 0, 1);
-		// glRotated(direction.lon() / acos(-1) * 180 - 90, 0, 1, 0);
+		// glRotated(direction.lat() / acos(-1) * 180 - 90, 0, 1, 0);
 		GLUquadric* quad = gluNewQuadric();
 		gluQuadricDrawStyle(quad, GLU_LINE);
 		gluSphere(quad, 50, 20, 20);
@@ -165,27 +165,27 @@ void Spectator::handleControlls()
 	// other controls
 	// if (keys[static_cast<int>('w')] && !keys[static_cast<int>('s')])
 	// {
-	// 	speed += Vertex (cos(direction.lat()) * boost, sin(direction.lat()) * boost, 0);
+	// 	speed += Vertex (cos(direction.lon()) * boost, sin(direction.lon()) * boost, 0);
 	// }
 	// if (keys[static_cast<int>('s')] && !keys[static_cast<int>('w')])
 	// {
-	// 	speed -= Vertex (cos(direction.lat()) * boost, sin(direction.lat()) * boost, 0);
+	// 	speed -= Vertex (cos(direction.lon()) * boost, sin(direction.lon()) * boost, 0);
 	// }
 	// if (keys[static_cast<int>('a')] && !keys[static_cast<int>('d')])
 	// {
-	// 	speed += Vertex (cos(direction.lat() + PI / 2) * boost, sin(direction.lat() + PI / 2) * boost, 0);
+	// 	speed += Vertex (cos(direction.lon() + PI / 2) * boost, sin(direction.lon() + PI / 2) * boost, 0);
 	// }
 	// if (keys[static_cast<int>('d')] && !keys[static_cast<int>('a')])
 	// {
-	// 	speed += Vertex (cos(direction.lat() - PI / 2) * boost, sin(direction.lat() - PI / 2) * boost, 0);
+	// 	speed += Vertex (cos(direction.lon() - PI / 2) * boost, sin(direction.lon() - PI / 2) * boost, 0);
 	// }
 	// if (keys[static_cast<int>('z')])
 	// {
-	// 	direction.lat() += 0.05;
+	// 	direction.lon() += 0.05;
 	// }
 	// if (keys[static_cast<int>('c')])
 	// {
-	// 	direction.lat() -= 0.05;
+	// 	direction.lon() -= 0.05;
 	// }
 
 
@@ -196,24 +196,24 @@ void Spectator::handleControlls()
 
 	if (keys[static_cast<int>('w')])
 	{
-		accDeriv = Vector(direction.lat(), /*direction.lon()*/0, 0) * boost / 2;
+		accDeriv = Vector(direction.lon(), /*direction.lat()*/0, 0) * boost / 2;
 	}
 
 	if (keys[static_cast<int>('s')])
 	{
-		accDeriv = Vector(direction.lat(), /*direction.lon()*/0, 0) * -boost / 2;
+		accDeriv = Vector(direction.lon(), /*direction.lat()*/0, 0) * -boost / 2;
 	}
 	
 	if (keys[static_cast<int>('a')])
 	{
-		accDeriv = Vector(direction.lat() + PI / 2, 0, 0) * boost / 2;
-		// directionAccDeriv.lat(boost / 10);
+		accDeriv = Vector(direction.lon() + PI / 2, 0, 0) * boost / 2;
+		// directionAccDeriv.lon(boost / 10);
 	}
 
 	if (keys[static_cast<int>('d')])
 	{
-		accDeriv = Vector(direction.lat() - PI / 2, 0, 0) * boost / 2;
-		// directionAccDeriv.lat(-boost / 10);
+		accDeriv = Vector(direction.lon() - PI / 2, 0, 0) * boost / 2;
+		// directionAccDeriv.lon(-boost / 10);
 	}
 
 	if (keys[static_cast<int>(' ')])
@@ -228,16 +228,16 @@ void Spectator::rotate(Vertex mouseMove)
 	{
 		mouseMove *= 5 / mouseMove.l();
 	}
-	directionAcc.lat() = pow(mouseMove.x() / 3., 3) / 20. * (1. - invertMouseControls * 2.);
-	directionAcc.lon() = pow(mouseMove.y() / 3., 3) / 20. * (1. - invertMouseControls * 2.);
+	directionAcc.lon() = pow(mouseMove.x() / 3., 3) / 20. * (1. - invertMouseControls * 2.);
+	directionAcc.lat() = pow(mouseMove.y() / 3., 3) / 20. * (1. - invertMouseControls * 2.);
 }
 
 void Spectator::move(Vertex mouseMove)
 {
 	static const double PI = acos(-1);
 	acc *= 0;
-	acc += Vector (direction.lat() + PI / 2, 0, 0) * mouseMove.x() / 1 * boost;
-	acc += Vector (direction.lat(), direction.lon() + PI / 2, 0) * mouseMove.y() / 1 * boost;
+	acc += Vector (direction.lon() + PI / 2, 0, 0) * mouseMove.x() / 1 * boost;
+	acc += Vector (direction.lon(), direction.lat() + PI / 2, 0) * mouseMove.y() / 1 * boost;
 }
 
 void Spectator::zoom(int dir)

@@ -8,7 +8,7 @@ Vector::Vector() : latency(0), longitude(0), rotation(0)
 
 }
 
-Vector::Vector(double lat, double lon, double rot) : latency(lat), longitude(lon), rotation(rot)
+Vector::Vector(double lon, double lat, double rot) : latency(lon), longitude(lat), rotation(rot)
 {
 	// TODO: avoid huge numbers
 }
@@ -38,12 +38,12 @@ Vector::~Vector()
 	
 }
 
-double& Vector::lat()
+double& Vector::lon()
 {
 	return latency;
 }
 
-double& Vector::lon()
+double& Vector::lat()
 {
 	return longitude;
 }
@@ -53,14 +53,14 @@ double& Vector::rot()
 	return rotation;
 }
 
-void Vector::lat(const double& lat)
-{
-	latency = lat;
-}
-
 void Vector::lon(const double& lon)
 {
-	longitude = lon;
+	latency = lon;
+}
+
+void Vector::lat(const double& lat)
+{
+	longitude = lat;
 }
 
 void Vector::rot(const double& rot)
