@@ -1,8 +1,6 @@
 #include <math.h>
 #include "vector.hpp"
 
-const double Vector::PI = acos(-1);
-
 Vector::Vector() : latency(0), longitude(0), rotation(0)
 {
 
@@ -27,7 +25,7 @@ Vector::Vector(const Vertex& v)
 	}
 	else
 	{
-		latency = v.y() < 0 ? acos(v.x() / v.l()) : 2 * PI - acos(v.x() / v.l());
+		latency = v.y() < 0 ? acos(v.x() / v.l()) : 2 * M_PI - acos(v.x() / v.l());
 		longitude = acos(v.y() / v.l());
 	}
 	rotation = 0;
@@ -75,7 +73,7 @@ const Vertex Vector::operator * (const double& len) const
 
 const Vector Vector::operator - () const
 {
-	return Vector(latency + PI, -longitude, -rotation);
+	return Vector(latency + M_PI, -longitude, -rotation);
 }
 
 void Vector::operator += (const Vector& v)

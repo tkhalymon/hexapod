@@ -1,7 +1,6 @@
 #include <GL/glut.h>
 #include <GL/glu.h>
 #include <math.h>
-#include <iostream>
 
 #include "spectator.hpp"
 
@@ -55,16 +54,14 @@ void Spectator::advance()
 	direction.lat() += directionSpeed.lat() / 50;
 	direction.rot() += directionSpeed.rot() / 50;
 
-	static const double PI = acos(-1); 
-
-	if (direction.lat() > PI / 2.001)
+	if (direction.lat() > M_PI / 2.001)
 	{
-		direction.lat() = PI / 2.001;
+		direction.lat() = M_PI / 2.001;
 		directionSpeed.lat() = 0;
 	}
-	if (direction.lat() < -PI / 2.001)
+	if (direction.lat() < -M_PI / 2.001)
 	{
-		direction.lat() = -PI / 2.001;
+		direction.lat() = -M_PI / 2.001;
 		directionSpeed.lat() = 0;
 	}
 
@@ -173,11 +170,11 @@ void Spectator::handleControlls()
 	// }
 	// if (keys[static_cast<int>('a')] && !keys[static_cast<int>('d')])
 	// {
-	// 	speed += Vertex (cos(direction.lon() + PI / 2) * boost, sin(direction.lon() + PI / 2) * boost, 0);
+	// 	speed += Vertex (cos(direction.lon() + M_PI / 2) * boost, sin(direction.lon() + M_PI / 2) * boost, 0);
 	// }
 	// if (keys[static_cast<int>('d')] && !keys[static_cast<int>('a')])
 	// {
-	// 	speed += Vertex (cos(direction.lon() - PI / 2) * boost, sin(direction.lon() - PI / 2) * boost, 0);
+	// 	speed += Vertex (cos(direction.lon() - M_PI / 2) * boost, sin(direction.lon() - M_PI / 2) * boost, 0);
 	// }
 	// if (keys[static_cast<int>('z')])
 	// {
@@ -187,9 +184,6 @@ void Spectator::handleControlls()
 	// {
 	// 	direction.lon() -= 0.05;
 	// }
-
-
-	static const double PI = acos(-1); 
 
 	accDeriv *= 0;
 	directionAccDeriv = Vector(0, 0, 0);
@@ -206,13 +200,13 @@ void Spectator::handleControlls()
 	
 	if (keys[static_cast<int>('a')])
 	{
-		accDeriv = Vector(direction.lon() + PI / 2, 0, 0) * boost / 2;
+		accDeriv = Vector(direction.lon() + M_PI / 2, 0, 0) * boost / 2;
 		// directionAccDeriv.lon(boost / 10);
 	}
 
 	if (keys[static_cast<int>('d')])
 	{
-		accDeriv = Vector(direction.lon() - PI / 2, 0, 0) * boost / 2;
+		accDeriv = Vector(direction.lon() - M_PI / 2, 0, 0) * boost / 2;
 		// directionAccDeriv.lon(-boost / 10);
 	}
 
@@ -234,10 +228,9 @@ void Spectator::rotate(Vertex mouseMove)
 
 void Spectator::move(Vertex mouseMove)
 {
-	static const double PI = acos(-1);
 	acc *= 0;
-	acc += Vector (direction.lon() + PI / 2, 0, 0) * mouseMove.x() / 1 * boost;
-	acc += Vector (direction.lon(), direction.lat() + PI / 2, 0) * mouseMove.y() / 1 * boost;
+	acc += Vector (direction.lon() + M_PI / 2, 0, 0) * mouseMove.x() / 1 * boost;
+	acc += Vector (direction.lon(), direction.lat() + M_PI / 2, 0) * mouseMove.y() / 1 * boost;
 }
 
 void Spectator::zoom(int dir)

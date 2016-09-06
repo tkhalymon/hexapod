@@ -31,7 +31,6 @@ private:
 	double latency;
 	double longitude;
 	double rotation;
-	static const double PI;
 };
 
 #endif
