@@ -27,18 +27,18 @@ void Paw::render()
 	static GLUquadricObj *quadric = gluNewQuadric();
 	// gluQuadricDrawStyle(quadric, GLU_LINE);
 	glTranslated(position.x(), position.y(), position.z() - 5);
-	glColor3d(0.3, 0.3, 0.3);
-	gluSphere(quadric, 5, 10, 10);
+	glColor3d(1.0, 1.0, 1.0);
 	glRotated(direction.lon() / M_PI * 180 + hangle, 0, 0, 1);
 	glRotated(direction.lat() / M_PI * 180 + angle[0], 0, -1, 0);
 	glRotated(180, 0, 1, 0);
-	gluCylinder(quadric, 5, 5, length[0], 10, 1);
+	gluSphere(quadric, 5, 50, 50);
+	gluCylinder(quadric, 5, 5, length[0], 50, 1);
 	glTranslated(0, 0, length[0]);
-	gluSphere(quadric, 5, 10, 10);
+	gluSphere(quadric, 5, 50, 50);
 	glRotated( + angle[1], 0, -1, 0);
-	gluCylinder(quadric, 5, 5, length[1], 10, 1);
+	gluCylinder(quadric, 5, 5, length[1], 50, 1);
 	glTranslated(0, 0, length[1]);
-	gluSphere(quadric, 5, 10, 10);
+	gluSphere(quadric, 5, 50, 50);
 	glPopMatrix();
 }
 

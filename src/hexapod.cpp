@@ -35,9 +35,13 @@ void Hexapod::render()
 	glEnable(GL_LIGHTING);
 	float specular[] = {1.0, 1.0, 1.0, 1.0};
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+	float lightPos[] = {0, 1, 0, 0};
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+
+	glEnable(GL_LIGHT0);
 	// glNormal3d(0, 0, 1);
 	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glTranslated(position.x(), position.y(), position.z());
 	glRotated(-90, 0, 0, 1);
 	glColor3d(1, 1, 1);

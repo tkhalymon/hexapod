@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDepthFunc(GL_LEQUAL);
-	
+
 	glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
 	glutFullScreen();
 	glutMainLoop();
