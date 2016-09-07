@@ -10,15 +10,21 @@ public:
 	Paw(double x, double y, double z, double lat);
 	~Paw();
 
+	void advance();
+
 	void render();
 
 	const Vertex& pos() const;
 
+	// void move (double hangle, double angle1, double angle2);
+
 private:
-	double a = 0;
 	Vertex position;
 	Vector direction;
-	double angle;
+	double hangle;
+	double angle[2];
+	double length[2];
+	double a;
 };
 
 #endif

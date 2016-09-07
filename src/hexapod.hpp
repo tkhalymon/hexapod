@@ -31,7 +31,6 @@ private:
 
 	Paw* paws[6];
 
-	static const double PI;
 };
 
 #endif

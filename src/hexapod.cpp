@@ -3,17 +3,16 @@
 
 #include "hexapod.hpp"
 
-const double Hexapod::PI = acos(-1);
 
 Hexapod::Hexapod()
 {
 	position = Vertex(0, 0, 50);
-	paws[LF] = new Paw(-20, 40, 5, PI / 3);
-	paws[LM] = new Paw(-30, 0, 5, PI / 2);
-	paws[LB] = new Paw(-20, -40, 5, 2 * PI / 3);
-	paws[RF] = new Paw(20, 40, 5, -PI / 3);
-	paws[RM] = new Paw(30, 0, 5, -PI / 2);
-	paws[RB] = new Paw(20, -40, 5, -2 * PI / 3);
+	paws[LF] = new Paw(-20, 40, 5, M_PI / 3);
+	paws[LM] = new Paw(-30, 0, 5, M_PI / 2);
+	paws[LB] = new Paw(-20, -40, 5, 2 * M_PI / 3);
+	paws[RF] = new Paw(20, 40, 5, -M_PI / 3);
+	paws[RM] = new Paw(30, 0, 5, -M_PI / 2);
+	paws[RB] = new Paw(20, -40, 5, -2 * M_PI / 3);
 	direction = Vector (0, 0, 0);
 }
 
@@ -24,7 +23,7 @@ Hexapod::~Hexapod()
 
 void Hexapod::advance()
 {
-	
+
 }
 
 void Hexapod::render()
@@ -42,9 +41,9 @@ void Hexapod::render()
 	glTranslated(position.x(), position.y(), position.z());
 	glRotated(-90, 0, 0, 1);
 	glColor3d(1, 1, 1);
-	glRotated(direction.lon() / PI * 180, 0, 0, 1);
-	glRotated(direction.lat() / PI * 180, 1, 0, 0);
-	glRotated(direction.rot() / PI * 180, 0, 1, 0);
+	glRotated(direction.lon() / M_PI * 180, 0, 0, 1);
+	glRotated(direction.lat() / M_PI * 180, 1, 0, 0);
+	glRotated(direction.rot() / M_PI * 180, 0, 1, 0);
 	glBegin(GL_POLYGON);
 	for (int i = 0; i < 6; ++i)
 	{
@@ -100,9 +99,9 @@ void Hexapod::look()
 	double lon = direction.lon();
 	double lat = direction.lat();
 	double rot = direction.rot();
-	Vertex normal = Vertex(-sin(rot + PI / 2) * sin(lat), -cos(rot - PI / 2), sin(rot + PI / 2) * cos(lat));
+	Vertex normal = Vertex(-sin(rot + M_PI / 2) * sin(lat), -cos(rot - M_PI / 2), sin(rot + M_PI / 2) * cos(lat));
 	double len = sqrt(pow(normal.x(), 2) + pow(normal.y(), 2));
-	double angle = normal.y() < 0 ? acos(normal.x() / len) : 2 * PI - acos(normal.x() / len);
+	double angle = normal.y() < 0 ? acos(normal.x() / len) : 2 * M_PI - acos(normal.x() / len);
 	angle -= lon;
 	normal.x() = cos(angle) * len;
 	normal.y() = -sin(angle) * len;

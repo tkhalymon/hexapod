@@ -16,6 +16,7 @@ Field::~Field()
 
 void Field::render()
 {
+	glEnable(GL_DEPTH_TEST);
 	glPushMatrix();
 	glScaled(cellSize, cellSize, cellSize);
 	glColor3d(0.5, 0.5, 0.5);
@@ -74,4 +75,5 @@ void Field::render()
 	}
 	glEnd();
 	glPopMatrix();
+	glDisable(GL_DEPTH_TEST);
 }
