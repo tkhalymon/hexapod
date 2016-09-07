@@ -33,6 +33,12 @@ void Hexapod::render()
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_ALPHA_TEST);
+	glEnable(GL_LIGHTING);
+	float specular[] = {1.0, 1.0, 1.0, 1.0};
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+	// glNormal3d(0, 0, 1);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	glTranslated(position.x(), position.y(), position.z());
 	glRotated(-90, 0, 0, 1);
 	glColor3d(1, 1, 1);
@@ -75,17 +81,12 @@ void Hexapod::render()
 		glVertex3d(paws[i]->pos().x(), paws[i]->pos().y(), paws[i]->pos().z() - 10);
 	}
 	glEnd();
-	glBegin(GL_LINES);
-	for (int i = 0; i < 6; ++i)
-	{
-		glVertex3d(paws[i]->pos().x(), paws[i]->pos().y(), paws[i]->pos().z());
-		glVertex3d(paws[i]->pos().x(), paws[i]->pos().y(), paws[i]->pos().z() - 10);
-	}
-	glEnd();
 	for (int i = 0; i < 6; ++i)
 	{
 		paws[i]->render();
 	}
+	glDisable(GL_COLOR_MATERIAL);
+	glDisable(GL_LIGHTING);
 	glDisable(GL_ALPHA_TEST);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
