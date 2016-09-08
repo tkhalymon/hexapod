@@ -17,7 +17,9 @@ public:
 
 private:
 
-	enum PawIndexes { LF = 0, LM = 1, LB = 2, RB = 3, RM = 4, RF = 5 };
+	void renderBody();
+	
+	enum PawIndexes { LF = 0, RF = 1, LM = 2, RM = 3, LB = 4, RB = 5 };
 
 	Vertex position;
 	Vertex speed;

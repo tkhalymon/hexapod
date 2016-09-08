@@ -18,11 +18,15 @@ Paw::~Paw()
 
 }
 
-void Paw::render()
+void Paw::advance()
 {
 	a += 0.1;
 	angle[0] = cos(a) * 30;
 	hangle = sin(a) * 30;
+}
+
+void Paw::render()
+{
 	glPushMatrix();
 	static GLUquadricObj *quadric = gluNewQuadric();
 	// gluQuadricDrawStyle(quadric, GLU_LINE);
@@ -36,9 +40,9 @@ void Paw::render()
 	glTranslated(0, 0, length[0]);
 	gluSphere(quadric, 5, 50, 50);
 	glRotated( + angle[1], 0, -1, 0);
-	gluCylinder(quadric, 5, 5, length[1], 50, 1);
+	gluCylinder(quadric, 5, 0.5, length[1], 50, 1);
 	glTranslated(0, 0, length[1]);
-	gluSphere(quadric, 5, 50, 50);
+	// gluSphere(quadric, 5, 50, 50);
 	glPopMatrix();
 }
 
