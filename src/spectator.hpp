@@ -19,9 +19,11 @@ public:
 	void render();
 	void look();
 
-	void keyPressed(const unsigned char& key);
-	void keyRelease(const unsigned char& key);
-	
+	void forward();
+	void backward();
+	void left();
+	void right();
+
 	void rotate(Vertex mouseMove);
 	void move(Vertex mouseMove);
 	void zoom(int direction);
@@ -30,7 +32,6 @@ private:
 
 	void wallBounce();
 	void wallApproach();
-	void handleControlls();
 
 	Vertex position;
 	Vertex speed;
@@ -53,11 +54,7 @@ private:
 
 	std::shared_ptr<Field> field;
 
-	int size;
-
 	double boost;
-
-	bool keys[255];
 
 	bool invertMouseControls;
 };

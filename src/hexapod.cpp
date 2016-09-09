@@ -6,7 +6,7 @@
 
 Hexapod::Hexapod()
 {
-	position = Vertex(0, 0, 50);
+	position = Vertex(0, 0, 24);
 	paws[LF] = new Paw(-20, 40, 5, M_PI / 3);
 	paws[LM] = new Paw(-30, 0, 5, M_PI / 2);
 	paws[LB] = new Paw(-20, -40, 5, 2 * M_PI / 3);
@@ -23,9 +23,29 @@ Hexapod::~Hexapod()
 
 void Hexapod::advance()
 {
+	acc *= 0;
 	for (int i = 0; i < 6; ++i)
 	{
 		paws[i]->advance();
+	}
+
+	for (int i = 0; i < 6; ++i)
+	{
+		Vertex pawPos = paws[i]->getEndPos() + position;
+		if (pawPos.z() < 0)
+		{
+			acc.z() -= pawPos.z() / 100;
+		}
+	}
+	// gravity
+	acc.z() -= 0.2;
+	speed += acc;
+	position += speed;
+	speed /= 1.1;
+	if (position.z() < 5)
+	{
+		position.z() = 5;
+		speed *= 0;
 	}
 }
 
@@ -58,6 +78,9 @@ void Hexapod::render()
 	for (int i = 0; i < 6; ++i)
 	{
 		paws[i]->render();
+		// glTranslated(paws[i]->getEndPos().x(), paws[i]->getEndPos().y(), paws[i]->getEndPos().z());
+		// gluSphere(gluNewQuadric(), 2, 50, 50);
+		// glTranslated(-paws[i]->getEndPos().x(), -paws[i]->getEndPos().y(), -paws[i]->getEndPos().z());
 	}
 	glDisable(GL_COLOR_MATERIAL);
 	glDisable(GL_LIGHTING);
@@ -94,17 +117,6 @@ void Hexapod::renderBody()
 	{
 		glVertex3d(paws[i]->pos().x(), paws[i]->pos().y(), paws[i]->pos().z());
 	}
-	// glBegin(GL_LINE_LOOP);
-	// for (int i = 0; i < 6; ++i)
-	// {
-	// 	glVertex3d(paws[i]->pos().x(), paws[i]->pos().y(), paws[i]->pos().z());
-	// }
-	// glEnd();
-	// glBegin(GL_LINE_LOOP);
-	// for (int i = 0; i < 6; ++i)
-	// {
-	// 	glVertex3d(paws[i]->pos().x(), paws[i]->pos().y(), paws[i]->pos().z() - 10);
-	// }
 	glEnd();
 }
 
@@ -123,4 +135,9 @@ void Hexapod::look()
 	normal.y() = -sin(angle) * len;
 	eye += normal * 100;
 	gluLookAt(eye.x(), eye.y(), eye.z(), position.x(), position.y(), position.z(), normal.x(), normal.y(), normal.z());
+}
+
+void Hexapod::rotatePaw(int paw, int servo, double angle)
+{
+	paws[paw]->rotate(servo, angle);
 }
