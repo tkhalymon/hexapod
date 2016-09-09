@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 	glutMouseFunc(mousePressed);
 	glutMotionFunc(mousePressedMove);
 
-	field = std::make_shared<Field>(20, 10, 1, true);
+	field = std::make_shared<Field>(5, 5, 1, false);
 	spectator = std::make_shared<Spectator>(field);
 	hexapod = std::make_shared<Hexapod>();
 
