@@ -18,10 +18,19 @@ void Field::render()
 {
 	glEnable(GL_DEPTH_TEST);
 	glPushMatrix();
-	glScaled(cellSize, cellSize, cellSize);
 	glColor3d(0.5, 0.5, 0.5);
+	glBegin(GL_QUADS);
+		glVertex3d(-rWidth, -rLength, -1);
+		glVertex3d(-rWidth, rLength, -1);
+		glVertex3d(rWidth, rLength, -1);
+		glVertex3d(rWidth, -rLength, -1);
+	glEnd();
+
+	glScaled(cellSize, cellSize, cellSize);
+
+	glColor3d(0, 0, 0);
+
 	glBegin(GL_LINES);
-	
 	// grid
 	for (int i = -length; i <= length; i++)
 	{

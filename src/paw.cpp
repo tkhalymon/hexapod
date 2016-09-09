@@ -40,9 +40,12 @@ void Paw::render()
 	glTranslated(0, 0, length[0]);
 	gluSphere(quadric, 5, 50, 50);
 	glRotated( + angle[1], 0, -1, 0);
-	gluCylinder(quadric, 5, 0.5, length[1], 50, 1);
-	glTranslated(0, 0, length[1]);
-	// gluSphere(quadric, 5, 50, 50);
+	glTranslated(0, 0, 0.3);
+	gluCylinder(quadric, 5, 2, length[1] - 2, 50, 1);
+	glTranslated(0, 0, length[1] - 2);
+	glScaled(1, 1, 2);
+	glColor3d(0.1, 0.1, 0.1);
+	gluSphere(quadric, 2, 50, 50);
 	glPopMatrix();
 }
 

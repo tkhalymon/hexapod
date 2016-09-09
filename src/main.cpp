@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 	glutInitWindowSize(w, h);
 	glutCreateWindow("Hexapod 0.0");
 	// glClearColor(0, 0, 0, 0);
-	glClearColor(0, 0, 0, 0);
+	glClearColor(0.7, 0.7, 0.7, 0);
 	glLoadIdentity();
 	
 	glMatrixMode(GL_PROJECTION);
