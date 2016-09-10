@@ -3,12 +3,12 @@
 
 #include "paw.hpp"
 
-Paw::Paw(double x, double y, double z, double lon) : position(x, y, z), direction(lon + M_PI / 2, 3 * M_PI / 4, 0)
+Paw::Paw(double x, double y, double z, double lon) : position(x, y, z), direction(lon + M_PI / 2, 0, 0)
 {
 	length[0] = 25;
 	length[1] = 40;
 	angle[0] = 0;
-	angle[1] = 0;
+	angle[1] = 135;
 	angle[2] = -130;
 	// a = rand() % 100;
 }
@@ -20,9 +20,7 @@ Paw::~Paw()
 
 void Paw::advance()
 {
-	// a += 0.1;
-	// angle[1] = cos(a) * 30;
-	// angle[0] = sin(a) * 30;
+	
 }
 
 void Paw::render()
@@ -33,7 +31,7 @@ void Paw::render()
 	glTranslated(position.x(), position.y(), position.z() - 5);
 	glColor3d(1.0, 1.0, 1.0);
 	glRotated(direction.lon() / M_PI * 180 + angle[0], 0, 0, 1);
-	glRotated(direction.lat() / M_PI * 180 + angle[1], 0, -1, 0);
+	glRotated(angle[1], 0, -1, 0);
 	glRotated(180, 0, 1, 0);
 	gluSphere(quadric, 5, 50, 50);
 	gluCylinder(quadric, 5, 5, length[0], 50, 1);
@@ -58,9 +56,9 @@ const Vertex Paw::getEndPos()
 {
 	double dir = direction.lon();
 	Vertex end = Vertex(
-		cos(angle[0] + dir) * (sin(angle[1] / 180 * M_PI + direction.lat()) * length[0] + sin((angle[1] + angle[2]) / 180 * M_PI + direction.lat()) * (length[1] + 2)),
-		sin(angle[0] + dir) * (sin(angle[1] / 180 * M_PI + direction.lat()) * length[0] + sin((angle[1] + angle[2]) / 180 * M_PI + direction.lat()) * (length[1] + 2)),
-		-cos(angle[1] / 180 * M_PI + direction.lat()) * length[0] - cos((angle[1] + angle[2]) / 180 * M_PI + direction.lat()) * (length[1] + 2) - 5
+		cos(angle[0] + dir) * (sin(angle[1] / 180 * M_PI) * length[0] + sin((angle[1] + angle[2]) / 180 * M_PI) * (length[1] + 2)),
+		sin(angle[0] + dir) * (sin(angle[1] / 180 * M_PI) * length[0] + sin((angle[1] + angle[2]) / 180 * M_PI) * (length[1] + 2)),
+		-cos(angle[1] / 180 * M_PI) * length[0] - cos((angle[1] + angle[2]) / 180 * M_PI) * (length[1] + 2) - 5
 	);
 	return position + end;
 }
@@ -71,16 +69,16 @@ void Paw::rotate (int servo, double ang)
 	switch (servo)
 	{
 	case 0:
-		if (angle[servo] < -35) angle[servo] = -35;
-		if (angle[servo] > 35) angle[servo] = 35;
+		if (angle[servo] < -30) angle[servo] = -30;
+		if (angle[servo] > 30) angle[servo] = 30;
 		break;
 	case 1:
-		if (angle[servo] < -70) angle[servo] = -70;
-		if (angle[servo] > 30) angle[servo] = 30;
+		if (angle[servo] < 90) angle[servo] = 90;
+		if (angle[servo] > 155) angle[servo] = 155;
 		break;
 	case 2:
 		if (angle[servo] < -150) angle[servo] = -150;
-		if (angle[servo] > -50) angle[servo] = -50;
+		if (angle[servo] > -90) angle[servo] = -90;
 		break;
 	}
 }

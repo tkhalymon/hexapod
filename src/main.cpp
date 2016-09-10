@@ -111,6 +111,10 @@ void timer(int)
 		case '9': hexapod->rotatePaw(5, 0, -1 * rotationDir); break;
 		case 'o': hexapod->rotatePaw(5, 1, 1 * rotationDir); break;
 		case 'l': hexapod->rotatePaw(5, 2, 1 * rotationDir); break;
+		
+		case '0': for (int j=0;j<6;j++)hexapod->rotatePaw(j, 0, -1 * rotationDir); break;
+		case 'p': for (int j=0;j<6;j++)hexapod->rotatePaw(j, 1, 1 * rotationDir); break;
+		case ';': for (int j=0;j<6;j++)hexapod->rotatePaw(j, 2, 1 * rotationDir); break;
 		}
 	}
 	if (!paused)

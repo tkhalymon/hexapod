@@ -1,9 +1,9 @@
 #include <GL/glut.h>
 #include "field.hpp"
 
-Field::Field(int width, int length, int height, bool bouncing) : width(width), length(length), height(height), bouncing(bouncing)
+Field::Field(int width, int length, int height, bool bouncing) : width(width * 10), length(length * 10), height(height * 10), bouncing(bouncing)
 {
-	cellSize = 100;
+	cellSize = 10;
 	rWidth = width * cellSize;
 	rLength = length * cellSize;
 	rHeight = height * cellSize;
@@ -18,13 +18,13 @@ void Field::render()
 {
 	glEnable(GL_DEPTH_TEST);
 	glPushMatrix();
-	glColor3d(0.5, 0.5, 0.5);
-	glBegin(GL_QUADS);
-		glVertex3d(-rWidth, -rLength, -1);
-		glVertex3d(-rWidth, rLength, -1);
-		glVertex3d(rWidth, rLength, -1);
-		glVertex3d(rWidth, -rLength, -1);
-	glEnd();
+	// glColor3d(0.5, 0.5, 0.5);
+	// glBegin(GL_QUADS);
+	// 	glVertex3d(-rWidth, -rLength, -1);
+	// 	glVertex3d(-rWidth, rLength, -1);
+	// 	glVertex3d(rWidth, rLength, -1);
+	// 	glVertex3d(rWidth, -rLength, -1);
+	// glEnd();
 
 	glScaled(cellSize, cellSize, cellSize);
 
