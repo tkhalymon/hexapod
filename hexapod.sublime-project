@@ -1,0 +1,16 @@
+{
+    "build_systems":
+    [
+        {
+            "name": "hexapod",
+            "shell_cmd": "mkdir -p build; cd build; cmake .. && make -j 8 && ./hexapod",
+            "working_dir": "${project_path:${folder}}"
+        }
+    ],
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	]
+}
