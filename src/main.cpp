@@ -1,5 +1,6 @@
 #include <GL/glut.h>
 #include <GL/glu.h>
+#include <vector>
 #include <iostream>
 #include <math.h>
 #include "spectator.hpp"
@@ -19,10 +20,15 @@ void mousePressedMove(int x, int y);
 std::shared_ptr<Spectator> spectator;
 std::shared_ptr<Field> field;
 std::shared_ptr<Hexapod> hexapod;
+
+std::vector<unsigned char> pressedKeys;
+
 Vertex mousePos;
+
 bool mouseRotating = false;
 bool mouseMoving = false;
 bool paused = false;
+
 
 int main(int argc, char *argv[])
 {
@@ -74,8 +80,43 @@ void display()
 	glutSwapBuffers();
 }
 
+int rotationDir;
+
 void timer(int)
 {
+	for (std::vector<unsigned char>::iterator i = pressedKeys.begin(); i != pressedKeys.end(); ++i)
+	{
+		switch (*i)
+		{
+		case 'w': spectator->forward(); break;
+		case 's': spectator->backward(); break;
+		case 'a': spectator->left(); break;
+		case 'd': spectator->right(); break;
+		case '4': hexapod->rotatePaw(4, 0, 1 * rotationDir); break;
+		case 'r': hexapod->rotatePaw(4, 1, 1 * rotationDir); break;
+		case 'f': hexapod->rotatePaw(4, 2, 1 * rotationDir); break;
+		case '5': hexapod->rotatePaw(2, 0, 1 * rotationDir); break;
+		case 't': hexapod->rotatePaw(2, 1, 1 * rotationDir); break;
+		case 'g': hexapod->rotatePaw(2, 2, 1 * rotationDir); break;
+		case '6': hexapod->rotatePaw(0, 0, 1 * rotationDir); break;
+		case 'y': hexapod->rotatePaw(0, 1, 1 * rotationDir); break;
+		case 'h': hexapod->rotatePaw(0, 2, 1 * rotationDir); break;
+
+		case '7': hexapod->rotatePaw(1, 0, -1 * rotationDir); break;
+		case 'u': hexapod->rotatePaw(1, 1, 1 * rotationDir); break;
+		case 'j': hexapod->rotatePaw(1, 2, 1 * rotationDir); break;
+		case '8': hexapod->rotatePaw(3, 0, -1 * rotationDir); break;
+		case 'i': hexapod->rotatePaw(3, 1, 1 * rotationDir); break;
+		case 'k': hexapod->rotatePaw(3, 2, 1 * rotationDir); break;
+		case '9': hexapod->rotatePaw(5, 0, -1 * rotationDir); break;
+		case 'o': hexapod->rotatePaw(5, 1, 1 * rotationDir); break;
+		case 'l': hexapod->rotatePaw(5, 2, 1 * rotationDir); break;
+		
+		case '0': for (int j=0;j<6;j++)hexapod->rotatePaw(j, 0, -1 * rotationDir); break;
+		case 'p': for (int j=0;j<6;j++)hexapod->rotatePaw(j, 1, 1 * rotationDir); break;
+		case ';': for (int j=0;j<6;j++)hexapod->rotatePaw(j, 2, 1 * rotationDir); break;
+		}
+	}
 	if (!paused)
 	{
 		hexapod->advance();
@@ -87,6 +128,7 @@ void timer(int)
 
 void keyboard(unsigned char key, int x, int y)
 {
+	rotationDir = glutGetModifiers() == 4 ? 1 : -1;
 	if (key == 27)
 	{
 		exit(0);
@@ -95,12 +137,20 @@ void keyboard(unsigned char key, int x, int y)
 	{
 		paused = !paused;
 	}
-	spectator->keyPressed(key);
+	pressedKeys.push_back(key);
 }
 
 void keyboardUp(unsigned char key, int x, int y)
 {
-	spectator->keyRelease(key);
+	rotationDir = glutGetModifiers() == 4 ? 1 : -1;
+	for (std::vector<unsigned char>::iterator i = pressedKeys.begin(); i != pressedKeys.end(); ++i)
+	{
+		if (*i == key)
+		{
+			pressedKeys.erase(i);
+			break;
+		}
+	}
 }
 
 void keyboardSpecial(int key, int x, int y)

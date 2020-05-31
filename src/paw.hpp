@@ -16,13 +16,16 @@ public:
 
 	const Vertex& pos() const;
 
+	const Vertex getEndPos();
+
+	void rotate (int servo, double angle);
+
 	// void move (double hangle, double angle1, double angle2);
 
 private:
 	Vertex position;
 	Vector direction;
-	double hangle;
-	double angle[2];
+	double angle[3];
 	double length[2];
 	double a;
 };

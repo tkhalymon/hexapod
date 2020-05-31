@@ -8,7 +8,6 @@ Spectator::Spectator(std::shared_ptr<Field> field) : field (field)
 {
 	boost = 0.2;
 	invertMouseControls = true;
-	size = 50;
 	minDistance = 100;
 	distance = 600;
 	position = Vertex(0, 0, 50);
@@ -16,10 +15,6 @@ Spectator::Spectator(std::shared_ptr<Field> field) : field (field)
 	direction = Vector(0, -0.3, 0);
 	directionSpeed = Vector(0, 0, 0);
 	directionAcc = Vector(0, 0, 0);
-	for (int i = 0; i < 255; ++i)
-	{
-		keys[i] = false;
-	}
 	eye = Vertex (position.x() + cos(direction.lon()) * -distance, position.y() + sin(direction.lon()) * -distance, 0);
 }
 
@@ -30,9 +25,6 @@ Spectator::~Spectator()
 
 void Spectator::advance()
 {
-
-	handleControlls();
-
 	eye = (Vertex (position.x() - cos(direction.lon()) * cos(direction.lat()) * distance,
 	       position.y() - sin(direction.lon()) * cos(direction.lat()) * distance,
 	       position.z() - sin(direction.lat()) * distance));
@@ -54,14 +46,14 @@ void Spectator::advance()
 	direction.lat() += directionSpeed.lat() / 50;
 	direction.rot() += directionSpeed.rot() / 50;
 
-	if (direction.lat() > M_PI / 2.001)
+	if (direction.lat() > M_PI / 2.1)
 	{
-		direction.lat() = M_PI / 2.001;
+		direction.lat() = M_PI / 2.1;
 		directionSpeed.lat() = 0;
 	}
-	if (direction.lat() < -M_PI / 2.001)
+	if (direction.lat() < -M_PI / 2.1)
 	{
-		direction.lat() = -M_PI / 2.001;
+		direction.lat() = -M_PI / 2.1;
 		directionSpeed.lat() = 0;
 	}
 
@@ -74,7 +66,7 @@ void Spectator::advance()
 		wallApproach();
 	}
 	
-	acc /= 1.1;
+	acc /= 1.2;
 	speed /= 1.1;
 
 	distanceAcc /= 1.1;
@@ -87,6 +79,9 @@ void Spectator::advance()
 	directionSpeed.lon() /= 1.1;
 	directionSpeed.lat() /= 1.1;
 	directionSpeed.rot() /= 1.1;
+
+	accDeriv *= 0;
+	directionAccDeriv = Vector(0, 0, 0);
 }
 
 void Spectator::render()
@@ -114,39 +109,29 @@ void Spectator::look()
 	gluLookAt(eye.x(), eye.y(), eye.z(), position.x(), position.y(), position.z(), 0, sin(direction.rot()), cos(direction.rot()));
 }
 
-void Spectator::keyPressed(const unsigned char& key)
-{
-	keys[key] = true;
-}
-
-void Spectator::keyRelease(const unsigned char& key)
-{
-	keys[key] = false;
-}
-
 void Spectator::wallBounce()
 {
-	if (position.x() < -field->rWidth + size && speed.x() < 0)
+	if (position.x() < -field->rWidth && speed.x() < 0)
 	{
-		position.x() = -field->rWidth + size;
+		position.x() = -field->rWidth;
 		speed.x() *= -0.9;
 		acc.x() *= 0;
 	}
-	if (position.y() < -field->rLength + size && speed.y() < 0)
+	if (position.y() < -field->rLength && speed.y() < 0)
 	{
-		position.y() = -field->rLength + size;
+		position.y() = -field->rLength;
 		speed.y() *= -0.9;
 		acc.y() *= 0;
 	}
-	if (position.x() > field->rWidth - size && speed.x() > 0)
+	if (position.x() > field->rWidth && speed.x() > 0)
 	{
-		position.x() = field->rWidth - size;
+		position.x() = field->rWidth;
 		speed.x() *= -0.9;
 		acc.x() *= 0;
 	}
-	if (position.y() > field->rLength - size && speed.y() > 0)
+	if (position.y() > field->rLength && speed.y() > 0)
 	{
-		position.y() = field->rLength - size;
+		position.y() = field->rLength;
 		speed.y() *= -0.9;
 		acc.y() *= 0;
 	}
@@ -157,63 +142,23 @@ void Spectator::wallApproach()
 	
 }
 
-void Spectator::handleControlls()
+void Spectator::forward()
 {
-	// other controls
-	// if (keys[static_cast<int>('w')] && !keys[static_cast<int>('s')])
-	// {
-	// 	speed += Vertex (cos(direction.lon()) * boost, sin(direction.lon()) * boost, 0);
-	// }
-	// if (keys[static_cast<int>('s')] && !keys[static_cast<int>('w')])
-	// {
-	// 	speed -= Vertex (cos(direction.lon()) * boost, sin(direction.lon()) * boost, 0);
-	// }
-	// if (keys[static_cast<int>('a')] && !keys[static_cast<int>('d')])
-	// {
-	// 	speed += Vertex (cos(direction.lon() + M_PI / 2) * boost, sin(direction.lon() + M_PI / 2) * boost, 0);
-	// }
-	// if (keys[static_cast<int>('d')] && !keys[static_cast<int>('a')])
-	// {
-	// 	speed += Vertex (cos(direction.lon() - M_PI / 2) * boost, sin(direction.lon() - M_PI / 2) * boost, 0);
-	// }
-	// if (keys[static_cast<int>('z')])
-	// {
-	// 	direction.lon() += 0.05;
-	// }
-	// if (keys[static_cast<int>('c')])
-	// {
-	// 	direction.lon() -= 0.05;
-	// }
+	accDeriv = Vector(direction.lon(), /*direction.lat() * */0, 0) * boost / 5;
+}
+void Spectator::backward()
+{
+	accDeriv = Vector(direction.lon(), /*direction.lat() * */0, 0) * -boost / 5;
+}
 
-	accDeriv *= 0;
-	directionAccDeriv = Vector(0, 0, 0);
+void Spectator::left()
+{
+	accDeriv = Vector(direction.lon() + M_PI / 2, 0, 0) * boost / 5;
+}
 
-	if (keys[static_cast<int>('w')])
-	{
-		accDeriv = Vector(direction.lon(), /*direction.lat()*/0, 0) * boost / 2;
-	}
-
-	if (keys[static_cast<int>('s')])
-	{
-		accDeriv = Vector(direction.lon(), /*direction.lat()*/0, 0) * -boost / 2;
-	}
-	
-	if (keys[static_cast<int>('a')])
-	{
-		accDeriv = Vector(direction.lon() + M_PI / 2, 0, 0) * boost / 2;
-		// directionAccDeriv.lon(boost / 10);
-	}
-
-	if (keys[static_cast<int>('d')])
-	{
-		accDeriv = Vector(direction.lon() - M_PI / 2, 0, 0) * boost / 2;
-		// directionAccDeriv.lon(-boost / 10);
-	}
-
-	if (keys[static_cast<int>(' ')])
-	{
-		speed /= 1.1;
-	}
+void Spectator::right()
+{
+	accDeriv = Vector(direction.lon() - M_PI / 2, 0, 0) * boost / 5;
 }
 
 void Spectator::rotate(Vertex mouseMove)

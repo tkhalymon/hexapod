@@ -14,6 +14,7 @@ public:
 	void advance();
 	void render();
 	void look();
+	void rotatePaw(int paw, int servo, double angle);
 
 private:
 
