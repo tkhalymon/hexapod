@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 	glLoadIdentity();
 	
 	glMatrixMode(GL_PROJECTION);
-	gluPerspective(60, static_cast<double>(static_cast<double>(w) / static_cast<double>(h)), 10.0, 100000.0);
+	gluPerspective(60, static_cast<double>(w) / static_cast<double>(h), 10.0, 100000.0);
 	glMatrixMode(GL_MODELVIEW);
 
 	glutDisplayFunc(display);
@@ -50,7 +50,6 @@ int main(int argc, char *argv[])
 	glutPassiveMotionFunc(mouseMove);
 	glutMouseFunc(mousePressed);
 	glutMotionFunc(mousePressedMove);
-
 	field = std::make_shared<Field>(5, 5, 1, false);
 	spectator = std::make_shared<Spectator>(field);
 	hexapod = std::make_shared<Hexapod>();
@@ -67,7 +66,9 @@ int main(int argc, char *argv[])
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    // glEnable(GL_DEPTH_TEST);
 	field->render();
+    // glDisable(GL_DEPTH_TEST);
 	hexapod->render();
 	spectator->look();
 	// hexapod->look();
@@ -87,7 +88,7 @@ void timer(int)
 
 void keyboard(unsigned char key, int x, int y)
 {
-	if (key == 27)
+	if (key == 27 || key == 'q')
 	{
 		exit(0);
 	}

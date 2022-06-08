@@ -25,12 +25,11 @@ Spectator::Spectator(std::shared_ptr<Field> field) : field (field)
 
 Spectator::~Spectator()
 {
-
+    
 }
 
 void Spectator::advance()
 {
-
 	handleControlls();
 
 	eye = (Vertex (position.x() - cos(direction.lon()) * cos(direction.lat()) * distance,

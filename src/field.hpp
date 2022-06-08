@@ -11,6 +11,9 @@ public:
 
 private:
 
+    void renderFloor();
+    void renderWalls();
+
 	friend class Spectator;
 
 	int cellSize;

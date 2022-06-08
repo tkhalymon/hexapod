@@ -31,7 +31,6 @@ public:
 	const Vertex operator * (const double& k) const;
 	const Vertex operator / (const double& k) const;
 
-
 private:
 
 	double *coord;

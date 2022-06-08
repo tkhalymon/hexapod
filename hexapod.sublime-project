@@ -1,0 +1,29 @@
+{
+    "build_systems":
+    [
+        {
+            "name": "hexapod",
+            "working_dir": "${project_path}",
+            "shell_cmd": "cd build; cmake .. && make && ./hexapod",
+            "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"
+        }
+    ],
+	"folders":
+	[
+		{
+			"path": ".",
+            "file_include_patterns":
+            [
+                "*.cpp",
+                "*.hpp",
+                "*.h",
+                "*.sublime-project",
+                "*.md"
+            ],
+            "folder_exclude_patterns":
+            [
+                "build"
+            ]
+		}
+	]
+}
